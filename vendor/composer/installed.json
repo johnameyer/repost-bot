@@ -1,0 +1,58 @@
+[
+    {
+        "name": "jenssegers/imagehash",
+        "version": "v0.4.2",
+        "version_normalized": "0.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jenssegers/imagehash.git",
+            "reference": "005c906420c21f7e48480a3c9d26e63028828ae7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jenssegers/imagehash/zipball/005c906420c21f7e48480a3c9d26e63028828ae7",
+            "reference": "005c906420c21f7e48480a3c9d26e63028828ae7",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.0|^5.0",
+            "satooshi/php-coveralls": "^0.6"
+        },
+        "time": "2017-04-21T10:05:59+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Jenssegers\\ImageHash\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kenneth Rapp"
+            },
+            {
+                "name": "Jens Segers",
+                "homepage": "https://jenssegers.com"
+            }
+        ],
+        "description": "Perceptual image hashing for PHP",
+        "homepage": "https://github.com/jenssegers/imagehash",
+        "keywords": [
+            "ahash",
+            "dhash",
+            "hash",
+            "image hash",
+            "imagehash",
+            "perceptual",
+            "phash"
+        ]
+    }
+]

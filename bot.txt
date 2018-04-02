@@ -1,0 +1,1 @@
+{"attachments":[],"avatar_url":null,"created_at":1522616456,"group_id":"35246268","id":"152261645611405503","name":"General Reposti","sender_id":"606756","sender_type":"bot","source_guid":"b1f555d0181d0136d66d22000bd8a0b6","system":false,"text":"General Reposti","user_id":"606756"}

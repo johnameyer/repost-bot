@@ -1,0 +1,1 @@
+{"attachments":[],"avatar_url":null,"created_at":1522618495,"group_id":"35246268","id":"152261849568233214","name":"General Reposti","sender_id":"606756","sender_type":"bot","source_guid":"71a2c3d01822013641bf22000a71bcf2","system":false,"text":"John Meyer","user_id":"606756"}
