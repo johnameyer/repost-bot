@@ -17,12 +17,11 @@ if(($attach = $data["attachments"]) && $attach[0]["type"] == "image"){
 	if($val == 0){
 		//blatant repost
 		callout_repost($data, $msg, $val);
-	}elseif($val == 1){
-		//pretty darn sure
-		post_GroupMe("Ahahahah");
-	}elseif($val < 4){
-		//human validation through dm bot?
-		post_GroupMe("Ahaha?");
+	}elseif($val < 5){
+		post_GroupMe(get_attachment($msg)["url"], $GLOBALS["valid_bot"]);
+		file_put_contents("post.json", json_encode($msg));
+		post_GroupMe(get_attachment($data)["url"], $GLOBALS["valid_bot"]);
+		file_put_contents("repost.json", json_encode($data));
 	}
 }
 

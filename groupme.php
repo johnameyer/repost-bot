@@ -2,12 +2,15 @@
 
 require_once 'vendor/autoload.php';
 
-function post_GroupMe($msg){
+require_once 'config.php';
+
+function post_GroupMe($msg, $group=0){
+	if(!$group) $group = $GLOBALS["main_bot"];
 	$ch = curl_init();
 	$url = "https://api.groupme.com/v3/bots/post";
 	$fields = array(
-		'bot_id' => 'ac22bc5749a5997eade2f7c0cf',
-		'text' => $msg
+		"bot_id" => $group,
+		"text" => $msg
 	);
 
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -49,7 +52,7 @@ function callout_repost($repost, $post, $sureness){
         $ch = curl_init();
         $url = "https://api.groupme.com/v3/bots/post";
         $fields = array(
-                'bot_id' => 'ac22bc5749a5997eade2f7c0cf',
+                'bot_id' => $GLOBALS["main_bot"],
                 'text' => $msg,
 		'attachments' => array($tag)
 	);
@@ -70,10 +73,10 @@ function callout_repost($repost, $post, $sureness){
 
 function curl_GroupMe($last = '', $limit = 100){
 	$msg = curl_init();
-	$id = "35246268";
+	$id = $GLOBALS["main_group"];
 	$url = "https://api.groupme.com/v3/groups/" . $id . "/messages";
 	$fields = array(
-        	"token" => "a7caHSNJc9e4gaXhUhhrVCUDvFDQjeKsuBMFDeZ8",
+        	"token" => $GLOBALS["api"],
 		"limit" => $limit,
 		"before_id" => $last
 	);
@@ -94,10 +97,10 @@ function callback_GroupMe(){
 function get_GroupMe($id){
 	$prev = curl_GroupMe($id, 1)[0]["id"];
 	$msg = curl_init();
-        $id = "35246268";
+        $id = $GLOBALS["main_group"];
         $url = "https://api.groupme.com/v3/groups/" . $id . "/messages";
         $fields = array(
-                "token" => "a7caHSNJc9e4gaXhUhhrVCUDvFDQjeKsuBMFDeZ8",
+                "token" => $GLOBALS["api"],
                 "limit" => 1,
                 "after_id" => $prev
         );
@@ -109,4 +112,10 @@ function get_GroupMe($id){
         curl_close($msg);
 
         return json_decode($server_output, true)["response"]["messages"][0];
+}
+
+function get_attachment($msg){
+	foreach($msg["attachments"] as $attach){
+		if($attach["type"] == "image") return $attach;
+	}
 }
