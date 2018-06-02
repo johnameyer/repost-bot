@@ -37,8 +37,6 @@ int main(int argc, char **argv){
 	for(int i = 1; i < argc; i++){
 		if(argv[i][0] == '-' && argv[i][1] == 'f'){
 			hash_file = string(argv[++i]);
-		}else{
-			needle = string(argv[i]);
 		}
 	}
 	// generate points
@@ -57,14 +55,19 @@ int main(int argc, char **argv){
 
 	// build k-d tree
 	kdt::KDTree<MyPoint> kdtree(haystack);
-	MyPoint query("", stoull(needle, nullptr,  16));
-
-	// k-nearest neigbors search
+	
+	
 	const int k = 1;
-	const std::vector<int> knnIndices = kdtree.knnSearch(query, k);
-	for (int i : knnIndices){
-		cout << haystack[i].getName();
-	}
+	string needle;
 
+	while(cin){
+		cin >> needle;
+		MyPoint query("", stoull(needle, nullptr,  16));
+		// k-nearest neigbors search
+		const std::vector<int> knnIndices = kdtree.knnSearch(query, k);
+		for (int i : knnIndices){
+			cout << haystack[i].getName();
+		}
+	}
 	return 0;
 }

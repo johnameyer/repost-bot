@@ -1,3 +1,6 @@
 post.json
 repost.json
 config.php
+vendor/
+tmp/
+kd_tree

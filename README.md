@@ -1,0 +1,9 @@
+ - add support for tesseract ocr comparison
+    - check text similarity if image similar enough
+ - convert kd tree to long running process, with named pipes
+ - migrate from current kd tree setup
+    - use different Points supporting bitwise nature of data
+    - use self balancing kd tree http://jcgt.org/published/0004/01/03/paper.pdf
+    - be able to write this tree state out to a file for easy start/stop operations
+ - make some messages nicer
+ - figure out thresholds - possibly a dynamic process?
