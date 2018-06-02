@@ -3,4 +3,5 @@ repost.json
 config.php
 vendor/
 tmp/
+kdtree
 kd_tree
