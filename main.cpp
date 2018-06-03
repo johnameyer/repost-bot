@@ -37,6 +37,8 @@ int main(int argc, char **argv){
 	for(int i = 1; i < argc; i++){
 		if(argv[i][0] == '-' && argv[i][1] == 'f'){
 			hash_file = string(argv[++i]);
+		} else {
+			needle = string(argv[i]);
 		}
 	}
 	// generate points
@@ -55,18 +57,26 @@ int main(int argc, char **argv){
 
 	// build k-d tree
 	kdt::KDTree<MyPoint> kdtree(haystack);
-	
-	
-	const int k = 1;
-	string needle;
 
-	while(cin){
-		cin >> needle;
+	if(needle.length()){
 		MyPoint query("", stoull(needle, nullptr,  16));
-		// k-nearest neigbors search
-		const std::vector<int> knnIndices = kdtree.knnSearch(query, k);
-		for (int i : knnIndices){
-			cout << haystack[i].getName();
+		// nearest neighbor
+		const std::vector<int> knnIndices = kdtree.knnSearch(query, 1);
+		cout << haystack[0].getName();
+	} else {
+		while(true){ //other program will handle writing eof when time comes
+			string id;
+			getline(cin, id, ',');
+			if(id.length() == 0) continue;
+			getline(cin, needle);
+			//cout << needle.length();
+			if(needle.length() == 0) continue;
+			if(!id.compare("-")) break; // if is -, quit
+			cout << "- " << needle << "," << id << "\n";
+			MyPoint query(id, stoull(needle, nullptr,  16));
+			// k-nearest neigbors search
+			const std::vector<int> knnIndices = kdtree.knnSearch(query, 1);
+			cout << id << "," << haystack[knnIndices[0]].getName() << "\n";
 		}
 	}
 	return 0;

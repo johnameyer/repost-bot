@@ -22,7 +22,6 @@ $data = "";
 $i = 0;
 
 while($resp){
-
 	foreach($resp as $msg){
 		if($msg["attachments"] && $msg["attachments"][0]["type"] == "image"){//eventually check for mult attach?
 			$data .= $msg["id"] . "," . $hasher->hash($msg["attachments"][0]["url"]) . "\n";
@@ -32,6 +31,6 @@ while($resp){
 	$resp = 0;
 }
 
-file_put_contents("hashes.csv", $data);
+file_put_contents("tmp/hashes.csv", $data);
 
 post_GroupMe("Hashed " . $i . " images and waiting");
