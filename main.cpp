@@ -17,7 +17,7 @@ class MyPoint : public std::array<double, 64>{
 
 		// the constructors
 		MyPoint() {}
-		MyPoint(string name, unsigned long long num){ 
+		MyPoint(string name, unsigned long long num){
 			this->name = name;
 			for(int i = 0; i < 64; i++)
 				(*this)[i] = (num >> i) & 1;
@@ -25,7 +25,12 @@ class MyPoint : public std::array<double, 64>{
 		string getName(){
 			return name;
 		}
-
+		int dist(MyPoint p){
+			int dist = 0;
+			for (size_t i = 0; i < DIM; i++)
+				dist += ((*this)[i] != p[i]);
+                        return dist;
+		}
 	private:
 	string name;
 };
@@ -51,7 +56,7 @@ int main(int argc, char **argv){
 		getline(file, id, ',');
 		getline(file, num);
 		if(id.size() == 0 || num.size() == 0) break;
-		unsigned long long val = stoull(num, nullptr, 16); 
+		unsigned long long val = stoull(num, nullptr, 16);
 		haystack.push_back(MyPoint(id, val));
 	}
 
@@ -64,19 +69,32 @@ int main(int argc, char **argv){
 		const std::vector<int> knnIndices = kdtree.knnSearch(query, 1);
 		cout << haystack[0].getName();
 	} else {
+		vector<MyPoint> newlyAdded = {}; //handles new points because we cannot add to kdtree currently
 		while(true){ //other program will handle writing eof when time comes
 			string id;
 			getline(cin, id, ',');
 			if(id.length() == 0) continue;
+			if(!id.compare("-")) break; // if is -, quit
 			getline(cin, needle);
 			//cout << needle.length();
 			if(needle.length() == 0) continue;
-			if(!id.compare("-")) break; // if is -, quit
-			cout << "- " << needle << "," << id << "\n";
+			//cout << "- " << needle << "," << id << "\n";
 			MyPoint query(id, stoull(needle, nullptr,  16));
 			// k-nearest neigbors search
 			const std::vector<int> knnIndices = kdtree.knnSearch(query, 1);
-			cout << id << "," << haystack[knnIndices[0]].getName() << "\n";
+
+			MyPoint best = haystack[knnIndices[0]];
+			int bestDist = best.dist(query);
+			for(auto it = newlyAdded.begin(); it != newlyAdded.end(); it++){
+				int dist = it->dist(query);
+				if(dist < bestDist){
+					best = *it;
+					bestDist = dist;
+				}
+			}
+			newlyAdded.push_back(query);
+			cout << id << "," << best.getName() << "\n";
+
 		}
 	}
 	return 0;

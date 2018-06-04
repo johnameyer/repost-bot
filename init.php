@@ -31,6 +31,6 @@ while($resp){
 	$resp = 0;
 }
 
-file_put_contents("tmp/hashes.csv", $data);
+file_put_contents("tmp/hashes_store.csv", $data);
 
 post_GroupMe("Hashed " . $i . " images and waiting");
