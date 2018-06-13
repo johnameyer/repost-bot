@@ -1,6 +1,6 @@
 #!/bin/bash
 
-log="tmp/log"
+log="log/bash.log"
 
 STOREF=$1
 INF=$2

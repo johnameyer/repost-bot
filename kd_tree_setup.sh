@@ -1,6 +1,6 @@
 #!/bin/bash
 
-log="tmp/log"
+log="log/bash.log"
 
 STOREF=$1
 INF=$2
@@ -11,6 +11,6 @@ if [ ! -e $INF ]; then
 fi
 
 echo $(date) $0 "- Starting kdtree" >> $log
-./kdtree -f $STOREF  < $INF > $OUTF & disown
+cpp/kdtree -f $STOREF  < $INF > $OUTF & disown
 
 touch $OUTF

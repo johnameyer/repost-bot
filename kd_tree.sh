@@ -1,6 +1,6 @@
 #!/bin/bash
 
-log="./tmp/log"
+log="log/bash.log"
 
 STOREF="./tmp/hashes_store.csv"
 INF="./tmp/hashes_in.csv"
