@@ -2,12 +2,10 @@
 
 require_once 'groupme.php';
 
-/*
-if(file_exists("hashes.csv")){
+if(file_exists("tmp/hashes_store.csv")){
 	echo "Has already been initialized.";
 	exit(1);
 }
-*/
 
 $hasher = new Jenssegers\ImageHash\ImageHash;
 
