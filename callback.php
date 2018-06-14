@@ -10,8 +10,7 @@ $data = callback_GroupMe();
 
 if(($attach = $data["attachments"]) && $attach[0]["type"] == "image"){
 	$hash = $hasher->hash($attach[0]["url"]);
-	$sim_id = exec("./kd_tree.sh " .  $data["id"] . " " . $hash); //$sim_id = exec("./kd_tree/build/kdtree -f tmp/hashes.csv " .  $hash);
-	//file_put_contents("tmp/hashes.csv", $data["id"] . "," . $hash . "\n", FILE_APPEND | LOCK_EX); // figure out how to handle locks better
+	$sim_id = exec("./kd_tree.sh " .  $data["id"] . " " . $hash . " | head -n 1");
 	$msg = get_GroupMe($sim_id);
 	$val = $hasher->compare($attach[0]["url"], $msg["attachments"][0]["url"]);
 	if($val == 0){

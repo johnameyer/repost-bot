@@ -2,6 +2,7 @@
 #include <array>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 #include "kdtree.h"
 
@@ -70,15 +71,20 @@ int main(int argc, char **argv){
 		cout << haystack[0].getName();
 	} else {
 		vector<MyPoint> newlyAdded = {}; //handles new points because we cannot add to kdtree currently
+		string last = "";
 		while(true){ //other program will handle writing eof when time comes
+			string line;
+			getline(cin, line);
+			if(!line.length()) continue;
+			stringstream ssline(line);
+
 			string id;
-			getline(cin, id, ',');
-			if(id.length() == 0) continue;
+			getline(ssline, id, ',');
+			if(id.length() == 0 || id.compare(last) == 0) continue;
 			if(!id.compare("-")) break; // if is -, quit
-			getline(cin, needle);
-			//cout << needle.length();
+			getline(ssline, needle);
 			if(needle.length() == 0) continue;
-			//cout << "- " << needle << "," << id << "\n";
+
 			MyPoint query(id, stoull(needle, nullptr,  16));
 			// k-nearest neigbors search
 			const std::vector<int> knnIndices = kdtree.knnSearch(query, 1);
@@ -94,7 +100,7 @@ int main(int argc, char **argv){
 			}
 			newlyAdded.push_back(query);
 			cout << id << "," << best.getName() << "\n";
-
+			last = id;
 		}
 	}
 	return 0;
