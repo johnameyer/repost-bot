@@ -9,7 +9,7 @@ MASTER="kd_tree.sh"
 
 
 echo $(date) $0 "- Waiting" >> $log
-sleep 60
+sleep 6
 
 #check and make sure there are no other instances of kd_tree.sh running
 if [ $(pgrep -f $MASTER | wc -l) -ge 1 -o $(pgrep -f $0 | wc -l) -ge 2 ]; then

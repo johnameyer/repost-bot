@@ -5,12 +5,12 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 
 function post_GroupMe($msg, $group=0){
-	if(!$group) $group = $GLOBALS["main_bot"];
+	if(!$group) $group = $GLOBALS['main_bot'];
 	$ch = curl_init();
-	$url = "https://api.groupme.com/v3/bots/post";
+	$url = 'https://api.groupme.com/v3/bots/post';
 	$fields = array(
-		"bot_id" => $group,
-		"text" => $msg
+		'bot_id' => $group,
+		'text' => $msg
 	);
 
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -26,14 +26,14 @@ function post_GroupMe($msg, $group=0){
 }
 
 function craft_message($repost, $post, $sureness){
-	$date = date("M d, Y h:i:s A", $post["created_at"]);
-	if($repost["sender_id"] == "22102250"){
-		return "@" . $repost["name"] . " reposted from " . $date . " but it is an iconic meme";
+	$date = date('M d, Y h:i:s A', $post['created_at']);
+	if($repost['sender_id'] == '22102250'){
+		return '@' . $repost['name'] . ' reposted from ' . $date . ' but it is an iconic meme';
 	}
-	if($repost["name"] != $post["name"]){
-		return "@" . $repost["name"] . " totally just reposted " . $post["name"] . "'s post from " . $date;
+	if($repost['name'] != $post['name']){
+		return '@' . $repost['name'] . ' totally just reposted ' . $post['name'] . '\'s post from ' . $date;
 	}else{
-		return "@" . $repost["name"] . " just reposted their post from " . $date;
+		return '@' . $repost['name'] . ' just reposted their post from ' . $date;
 	}
 }
 
@@ -41,23 +41,23 @@ function callout_repost($repost, $post, $sureness){
 	$msg = craft_message($repost, $post, $sureness);
 
 	$tag = array(
-		"loci" => array(array(
+		'loci' => array(array(
 			strpos($msg, '@'),
-			strlen($repost["name"]) + 1
+			strlen($repost['name']) + 1
 		)),
-		"type" => "mentions",
-		"user_ids" => array($repost["sender_id"])
+		'type' => 'mentions',
+		'user_ids' => array($repost['sender_id'])
 	);
 
         $ch = curl_init();
-        $url = "https://api.groupme.com/v3/bots/post";
+        $url = 'https://api.groupme.com/v3/bots/post';
         $fields = array(
-                'bot_id' => $GLOBALS["main_bot"],
+                'bot_id' => $GLOBALS['main_bot'],
                 'text' => $msg,
 		'attachments' => array($tag)
 	);
 
-	post_GroupMe(json_encode($fields));
+	//post_GroupMe(json_encode($fields));
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, count($fields));
@@ -73,49 +73,49 @@ function callout_repost($repost, $post, $sureness){
 
 function curl_GroupMe($last = '', $limit = 100){
 	$msg = curl_init();
-	$id = $GLOBALS["main_group"];
-	$url = "https://api.groupme.com/v3/groups/" . $id . "/messages";
+	$id = $GLOBALS['main_group'];
+	$url = 'https://api.groupme.com/v3/groups/' . $id . '/messages';
 	$fields = array(
-        	"token" => $GLOBALS["api"],
-		"limit" => $limit,
-		"before_id" => $last
+        	'token' => $GLOBALS['api'],
+		'limit' => $limit,
+		'before_id' => $last
 	);
 
-	curl_setopt($msg, CURLOPT_URL, $url . "?" . http_build_query($fields));
+	curl_setopt($msg, CURLOPT_URL, $url . '?' . http_build_query($fields));
 	curl_setopt($msg, CURLOPT_RETURNTRANSFER, true);
 
 	$server_output = curl_exec($msg);
 	curl_close($msg);
 
-	return json_decode($server_output, true)["response"]["messages"];
+	return json_decode($server_output, true)['response']['messages'];
 }
 
 function callback_GroupMe(){
-	return json_decode(file_get_contents("php://input"), true);
+	return json_decode(file_get_contents('php://input'), true);
 }
 
 function get_GroupMe($id){
-	$prev = curl_GroupMe($id, 1)[0]["id"];
+	$prev = curl_GroupMe($id, 1)[0]['id'];
 	$msg = curl_init();
-        $id = $GLOBALS["main_group"];
-        $url = "https://api.groupme.com/v3/groups/" . $id . "/messages";
+        $id = $GLOBALS['main_group'];
+        $url = 'https://api.groupme.com/v3/groups/' . $id . '/messages';
         $fields = array(
-                "token" => $GLOBALS["api"],
-                "limit" => 1,
-                "after_id" => $prev
+                'token' => $GLOBALS['api'],
+                'limit' => 1,
+                'after_id' => $prev
         );
 
-        curl_setopt($msg, CURLOPT_URL, $url . "?" . http_build_query($fields));
+        curl_setopt($msg, CURLOPT_URL, $url . '?' . http_build_query($fields));
         curl_setopt($msg, CURLOPT_RETURNTRANSFER, true);
 
         $server_output = curl_exec($msg);
         curl_close($msg);
 
-        return json_decode($server_output, true)["response"]["messages"][0];
+        return json_decode($server_output, true)['response']['messages'][0];
 }
 
 function get_attachment($msg){
-	foreach($msg["attachments"] as $attach){
-		if($attach["type"] == "image") return $attach;
+	foreach($msg['attachments'] as $attach){
+		if($attach['type'] == 'image') return $attach;
 	}
 }
