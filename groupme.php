@@ -26,14 +26,33 @@ function post_GroupMe($msg, $group=0){
 }
 
 function craft_message($repost, $post, $sureness){
-	$date = date('M d, Y h:i:s A', $post['created_at']);
+	$date = ' from ' . date('M d, Y h:i:s A', $post['created_at']);
+	$poster = $post['name'];
+	$reposter = $repost['name'];
+
+	$caption = ($repost['text']) ? ' with caption "' . $repost['text'] . '"' : '';
+
+	$recency = '';
+
+	{
+		$recent_msgs = curl_GroupMe('', 15);
+		$i = 1;
+		foreach($recent_msgs as $msg){
+			if($msg['id'] == $repost['id']) break;
+			$i += 1;
+		}
+
+		$recency = ($i < 10) ? ( ($i == 1) ? ' just now'  : ' ' . $i . ' messages ago' ) : ' a while ago';
+
+	}
+
 	if($repost['sender_id'] == '22102250'){
-		return '@' . $repost['name'] . ' reposted from ' . $date . ' but it is an iconic meme';
+		return '@' . $repost['name'] . ' reposted' . $date . $recency . $caption . ' but it is an iconic meme';
 	}
 	if($repost['name'] != $post['name']){
-		return '@' . $repost['name'] . ' totally just reposted ' . $post['name'] . '\'s post from ' . $date;
+		return '@' . $repost['name'] . ' totally just reposted ' . $post['name'] . '\'s post' . $date . $recency . $caption;
 	}else{
-		return '@' . $repost['name'] . ' just reposted their post from ' . $date;
+		return '@' . $repost['name'] . ' just reposted their post' . $date . $recency . $caption;
 	}
 }
 
