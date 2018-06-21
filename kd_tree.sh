@@ -29,9 +29,9 @@ while( [ -z $out ] ); do #test that program has not returned; probably need to m
 	sleep 1
 done
 
-echo $out | cut -f 2 -d , $OUTF #gets similar id field of hashes_out
+echo $out | cut -f 2 -d , - #gets similar id field of hashes_out
 
-echo $(date) $0 "- Got result from kdtree " $($out | cut -f 2 -d , $OUTF) >> $log
+echo $(date) $0 "- Got result from kdtree " $(echo $out | cut -f 2 -d , -) >> $log
 
 echo "$1,$2" >> $STOREF
 

@@ -76,7 +76,7 @@ function curl_GroupMe($last = '', $limit = 100){
 	$id = $GLOBALS['main_group'];
 	$url = 'https://api.groupme.com/v3/groups/' . $id . '/messages';
 	$fields = array(
-        	'token' => $GLOBALS['api'],
+		'token' => $GLOBALS['api'],
 		'limit' => $limit,
 		'before_id' => $last
 	);

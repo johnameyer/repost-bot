@@ -97,6 +97,7 @@ int main(int argc, char **argv){
 					best = *it;
 					bestDist = dist;
 				}
+				if(bestDist == 0) break;
 			}
 			newlyAdded.push_back(query);
 			cout << id << "," << best.getName() << "\n";
