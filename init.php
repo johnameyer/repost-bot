@@ -29,7 +29,7 @@ if($argc == 1){
 
 }
 
-$hasher = new Jenssegers\ImageHash\ImageHash;
+$hasher = getHasher();
 $data = '';
 
 $NUM_TO_GET = 100;

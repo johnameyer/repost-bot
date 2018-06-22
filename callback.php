@@ -4,7 +4,7 @@ require_once 'groupme.php';
 
 ini_set('allow_url_fopen', true);
 
-$hasher = new Jenssegers\ImageHash\ImageHash;
+$hasher = getHasher();
 
 $data = callback_GroupMe();
 
@@ -25,10 +25,10 @@ $val = $hasher->compare($img['url'], array_filter($msg['attachments'], 'imageFun
 if($val == 0){
 	//blatant repost
 	callout_repost($data, $msg, $val);
-}elseif($val < 3){
+}elseif($val == -1){
 	//repost by different users - not sure why different values
 	callout_repost($data, $msg, $val);
-}elseif($val < 6){
+}elseif($val < 10){
 	post_GroupMe('Say "yes" if the two are similar (dist: ' . $val . ')', $GLOBALS['valid_bot']);
 	post_GroupMe(get_attachment($msg)['url'], $GLOBALS['valid_bot']);
 	file_put_contents('tmp/post.json', json_encode($msg));

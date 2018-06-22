@@ -4,6 +4,10 @@ require_once 'vendor/autoload.php';
 
 require_once 'config.php';
 
+function getHasher(){
+	return new Jenssegers\ImageHash\ImageHash(new Jenssegers\ImageHash\Implementations\AverageHash());
+}
+
 function post_GroupMe($msg, $group=0){
 	if(!$group) $group = $GLOBALS['main_bot'];
 	$ch = curl_init();
