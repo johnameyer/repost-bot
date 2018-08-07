@@ -40,6 +40,18 @@ class MyPoint : public std::array<double, bit_size>{
 	string name;
 };
 
+void load_hash(string number, unsigned long long * vals){
+	number = reverse(number.begin(), number.end()); //reverses string so we can work from right to left
+
+	for(int i = 0; i < chunk_size; i++){
+		vals[chunk_size - i - 1] = stoull(number.substr(0, 16), nullptr, 16);
+		if(number.length() <= 16)
+			break;
+		number = number.substr(16);
+	}
+	if(number.length())
+}
+
 int main(int argc, char **argv){
 
 	string hash_file = "hashes.csv", needle = "";
@@ -61,15 +73,18 @@ int main(int argc, char **argv){
 		getline(file, id, ',');
 		getline(file, num);
 		if(id.size() == 0 || num.size() == 0) break;
-		unsigned long long val = stoull(num, nullptr, 16);
-		haystack.push_back(MyPoint(id, val));
+		unsigned long long vals[chunk_size] = { 0 };
+		load_hash(num, vals);
+		haystack.push_back(MyPoint(id, vals));
 	}
 
 	// build k-d tree
 	kdt::KDTree<MyPoint> kdtree(haystack);
 
 	if(needle.length()){
-		MyPoint query("", stoull(needle, nullptr,  16));
+		unsigned long long vals[chunk_size] = { 0 };
+		load_hash(needle, vals);
+		MyPoint query("", vals);
 		// nearest neighbor
 		const std::vector<int> knnIndices = kdtree.knnSearch(query, 1);
 		cout << haystack[0].getName();
