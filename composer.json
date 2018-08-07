@@ -1,6 +1,6 @@
 {
     "require": {
-        "jenssegers/imagehash": "^0.5.0",
+        "jenssegers/imagehash": "dev-master",
         "ext-gd": "^0.0.0"
     }
 }

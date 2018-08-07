@@ -5,7 +5,7 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 
 function getHasher(){
-	return new Jenssegers\ImageHash\ImageHash(new Jenssegers\ImageHash\Implementations\AverageHash());
+	return new Jenssegers\ImageHash\ImageHash(new Jenssegers\ImageHash\Implementations\DifferenceHash(16));
 }
 
 function post_GroupMe($msg, $group=0){

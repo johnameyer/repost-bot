@@ -8,20 +8,24 @@
 
 using namespace std;
 
+const int chunk_size = 4;
+const int bit_size = 64 * chunk_size;
+
 // user-defined point type
 // inherits std::array in order to use operator[]
-class MyPoint : public std::array<double, 64>{
+class MyPoint : public std::array<double, bit_size>{
 	public:
 		// dimension of space (or "k" of k-d tree)
 		// KDTree class accesses this member
-		static const int DIM = 64;
+		static const int DIM = bit_size;
 
 		// the constructors
 		MyPoint() {}
-		MyPoint(string name, unsigned long long num){
+		MyPoint(string name, unsigned long long * nums){
 			this->name = name;
-			for(int i = 0; i < 64; i++)
-				(*this)[i] = (num >> i) & 1;
+			for(int i = 0; i < chunk_size; i++)
+				for(int j = 0; j < 64; j++)
+					(*this)[64 * i + j] = (nums[i] >> j) & j;
 		}
 		string getName(){
 			return name;

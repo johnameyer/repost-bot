@@ -28,7 +28,7 @@ if($val == 0){
 }elseif($val == -1){
 	//repost by different users - not sure why different values
 	callout_repost($data, $msg, $val);
-}elseif($val < 10){
+}elseif($val < 20){
 	post_GroupMe('Say "yes" if the two are similar (dist: ' . $val . ')', $GLOBALS['valid_bot']);
 	post_GroupMe(get_attachment($msg)['url'], $GLOBALS['valid_bot']);
 	file_put_contents('tmp/post.json', json_encode($msg));
